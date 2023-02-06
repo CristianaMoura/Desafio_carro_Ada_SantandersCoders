@@ -1,5 +1,4 @@
 package service;
-
 import model.Carro;
 import org.junit.Assert;
 import org.junit.Before;
@@ -8,31 +7,23 @@ import org.junit.Test;
 
 public class CarroServiceTest {
 
-//    CarroService carroService;
-//    CarroService carroService = new CarroServiceImpl();
-
-    @Ignore
+    private CarroService carroService;
+    private Carro carro;
     @Before
     public void setup() {
+        carro = new Carro("Preto", "Peugeot", "308", 2020, 300);
+        carroService = new CarroServiceImpl();
     }
-
     @Test
     public void umCarroDeveIniciarDesligado() {
         // Dado:
-        CarroService carroService = new CarroServiceImpl();
-        Carro carro = new Carro("Preto", "Pegout", "207", 2020, 300);
-
         //Quando:
-
         // Então:
         Assert.assertFalse(carro.isLigado());
     }
-
     @Test
     public void deveLigarCorretamente() {
         //Dado:
-        CarroService carroService = new CarroServiceImpl();
-        Carro carro = new Carro("Preto", "Pegout", "207", 2020, 300);
         //Quando:
         carroService.ligar(carro);
         //Então:
@@ -41,24 +32,15 @@ public class CarroServiceTest {
     @Test
     public void deveAcelerarCorretamente() {
         // Dado:
-        CarroService carroService = new CarroServiceImpl();
-        Carro carro = new Carro("Preto", "Pegout", "207", 2020, 300);
-        carroService.ligar(carro);
-
         // Quando:
         carroService.acelerar(carro, 10);
-
         // Então:
         Assert.assertTrue(true);
         Assert.assertEquals(carro.getVelocidadeAtual(), 10);
     }
-
     @Test
     public void deveFrearCorretamente() {
         // Dado:
-        CarroService carroService = new CarroServiceImpl();
-        Carro carro = new Carro("Preto", "Pegout", "207", 2020, 300);
-
         // Quando:
         carroService.ligar(carro);
         carroService.acelerar(carro, 20);
@@ -66,25 +48,18 @@ public class CarroServiceTest {
         // Então:
         Assert.assertEquals(carro.getVelocidadeAtual(), 10);
     }
-
     @Test
     public void naoDeveLigarcarroEmMovimento() {
         //Dado:
-        CarroService carroService = new CarroServiceImpl();
-        Carro carro = new Carro("Preto", "Pegout", "207", 2020, 300);
         carroService.estadoAtual(carro);
         carroService.ligar(carro);
         //Quando:
         carroService.ligar(carro);
         //Então
-
     }
-
     @Test
     public void naoDevePassarDaVelocidadeMaxima() {
         //Dado:
-        CarroService carroService = new CarroServiceImpl();
-        Carro carro = new Carro("Preto", "Pegout", "207", 2020, 300);
         carroService.ligar(carro);
         //Quando:
         carroService.acelerar(carro, 50);
@@ -93,19 +68,25 @@ public class CarroServiceTest {
         //Então:
         Assert.assertEquals(carro.getVelocidadeMaxima(), carro.getVelocidadeAtual());
     }
-
     @Test
     public void naoDeveAceitarVelocidadeNegativa() {
         //Dado:
-        CarroService carroService = new CarroServiceImpl();
-        Carro carro = new Carro("Preto", "Pegout", "207", 2020, 300);
         carroService.ligar(carro);
         //Quando:
-
         //Então:
         Assert.assertTrue(carro.isLigado());
         Assert.assertEquals(0, carro.getVelocidadeAtual());
     }
+@Test
+    public void mostrarEstadoAtual(){
+        //Dado:
+        carroService.ligar(carro);
+        //Quando:
 
+       String estado =  carroService.estadoAtual(carro);
+        //Então:
+        Assert.assertNotNull(estado);
+        Assert.assertTrue(carro.isLigado());
 
+    }
 }
